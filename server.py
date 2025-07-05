@@ -7,10 +7,14 @@ app=Flask("Emotion Detector")
 def emotion_detector_endpoint():
     text_to_analyze = request.args.get("textToAnalyze")
     emotion_response = emotion_detector(text_to_analyze)
-    return (f"For the given statement, the system response is 'anger': {emotion_response['anger']},"
-    f" 'disgust': {emotion_response['disgust']}, 'fear':{emotion_response['fear']},"
-    f" 'joy': {emotion_response['joy']} and 'sadness': {emotion_response['sadness']}."
-    f" The dominant emotion is <b>{emotion_response['dominant_emotion']}</b>.")
+    if emotion_response['dominant_emotion']:
+        output_message =  (f"For the given statement, the system response is 'anger': {emotion_response['anger']},"
+        f" 'disgust': {emotion_response['disgust']}, 'fear':{emotion_response['fear']},"
+        f" 'joy': {emotion_response['joy']} and 'sadness': {emotion_response['sadness']}."
+        f" The dominant emotion is <b>{emotion_response['dominant_emotion']}</b>.")
+    else: 
+        output_message = "Invalid text! Please try again!"
+    return output_message
     
 @app.route("/")
 def index():
